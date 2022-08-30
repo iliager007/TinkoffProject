@@ -1,6 +1,7 @@
 import argparse
 import json
 import re
+import os
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--input-dir', type=str)
@@ -8,18 +9,24 @@ parser.add_argument('--model', type=str)
 args = parser.parse_args()
 
 if args.input_dir is not None:
-    pass
+    directory = args.input_dir
+    files = os.listdir(directory)
+    lines = []
+    for f in files:
+        file = open(os.path.join(directory, f), 'r', encoding='windows-1251')
+        lines += file.readlines()
+    text = "\n".join(lines)
 else:
     text = input()
-
 
 text = text.lower()
 regex = re.compile('[^а-яА-Я \n]')
 text = regex.sub('', text)
-list_of_textes = list(text.split('\n'))
+list_of_paragraphs = list(text.split('\n'))
 prefix1 = {}
 prefix2 = {}
-for text in list_of_textes:
+
+for text in list_of_paragraphs:
     text = list(text.split())
     if len(text) >= 2:
         if text[0] not in prefix1:

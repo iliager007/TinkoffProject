@@ -15,12 +15,17 @@ prefix2 = model[1]
 
 length = args.length
 
+continuation = []
 if args.prefix is not None:
     beginning = args.prefix
+    if len(beginning.split()) == 1:
+        continuation.append(random.choice(prefix1[beginning]))
+        beginning += " " + continuation[-1]
+    else:
+        beginning = " ".join(beginning.split()[-2:])
 else:
     beginning = random.choice(list(prefix2.keys()))
 
-continuation = []
 for i in range(length):
     if beginning in prefix2:
         continuation.append(random.choice(prefix2[beginning]))
