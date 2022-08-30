@@ -6,10 +6,13 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--input-dir', type=str)
 parser.add_argument('--model', type=str)
 args = parser.parse_args()
+
 if args.input_dir is not None:
     pass
 else:
     text = input()
+
+
 text = text.lower()
 regex = re.compile('[^а-яА-Я \n]')
 text = regex.sub('', text)
@@ -31,5 +34,6 @@ for text in list_of_textes:
             if text[i - 1] not in prefix1:
                 prefix1[text[i - 1]] = []
             prefix1[text[i - 1]].append(text[i])
-with open("model.json", "w") as model_file:
+
+with open(args.model, "w") as model_file:
     json.dump((prefix1, prefix2), model_file)
